@@ -1,0 +1,25 @@
+.container {
+  width: min(var(--content-max), calc(100% - 48px));
+  margin: 0 auto;
+  padding: 24px 0 48px;
+}
+
+.chrome {
+  display: grid;
+  gap: 10px;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    width: min(var(--content-max), calc(100% - 32px));
+    padding-bottom: 34px;
+  }
+}
+
+@media (max-width: 760px) {
+  .container {
+    width: min(var(--content-max), calc(100% - 24px));
+    padding-top: 18px;
+    padding-bottom: 44px;
+  }
+}

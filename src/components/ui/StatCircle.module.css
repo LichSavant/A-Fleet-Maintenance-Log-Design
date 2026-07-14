@@ -1,0 +1,51 @@
+.stat {
+  position: relative;
+  display: grid;
+  min-height: 238px;
+  place-items: center;
+  padding: 28px;
+  text-align: center;
+}
+
+.stat svg {
+  width: 154px;
+  height: 154px;
+  transform: rotate(-90deg);
+}
+
+.track,
+.progress {
+  fill: none;
+  stroke-width: 3.5;
+}
+
+.track {
+  stroke: rgba(255, 255, 255, 0.07);
+}
+
+.progress {
+  stroke: var(--color-accent);
+  stroke-linecap: round;
+}
+
+.stat strong {
+  position: absolute;
+  top: 88px;
+  color: var(--color-text);
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.stat span {
+  color: var(--color-text);
+  font-size: 0.94rem;
+  font-weight: 800;
+}
+
+.stat p {
+  max-width: 220px;
+  margin: -8px 0 0;
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}

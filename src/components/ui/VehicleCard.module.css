@@ -1,0 +1,90 @@
+.card {
+  display: grid;
+  gap: 18px;
+  min-height: 264px;
+  padding: 22px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.042), rgba(255, 255, 255, 0.014)),
+    var(--color-surface);
+  box-shadow: var(--shadow-subtle);
+  transition:
+    transform var(--transition-fast),
+    border-color var(--transition-fast),
+    background var(--transition-fast);
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(214, 168, 90, 0.2);
+  background:
+    linear-gradient(145deg, rgba(214, 168, 90, 0.07), rgba(255, 255, 255, 0.015)),
+    var(--color-surface);
+}
+
+.topline,
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.card h3 {
+  margin: 4px 0 -10px;
+  color: var(--color-text);
+  font-size: 1.18rem;
+}
+
+.card h3 a:focus-visible,
+.footer a:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.card p {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
+}
+
+.meta {
+  display: grid;
+  gap: 11px;
+  padding: 6px 0;
+}
+
+.meta span {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--color-text-soft);
+  font-size: 0.84rem;
+}
+
+.meta svg {
+  color: var(--color-accent);
+}
+
+.footer {
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border);
+}
+
+.footer a {
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.footer a:hover {
+  color: var(--color-accent);
+}
+
+.footer strong {
+  color: var(--color-text);
+  font-size: 0.84rem;
+}

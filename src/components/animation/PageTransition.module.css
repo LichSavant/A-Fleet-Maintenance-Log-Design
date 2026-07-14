@@ -1,0 +1,10 @@
+.page {
+  width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page {
+    transform: none !important;
+    transition: none !important;
+  }
+}

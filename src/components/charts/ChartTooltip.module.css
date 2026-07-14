@@ -1,0 +1,20 @@
+.tooltip {
+  display: grid;
+  gap: 6px;
+  padding: 12px 14px;
+  color: var(--color-text);
+  border: 1px solid rgba(214, 168, 90, 0.18);
+  border-radius: 14px;
+  background: rgba(15, 18, 21, 0.96);
+  box-shadow: var(--shadow-subtle);
+}
+
+.tooltip strong {
+  color: var(--color-accent);
+  font-size: 0.78rem;
+}
+
+.tooltip span {
+  color: var(--color-text-soft);
+  font-size: 0.78rem;
+}

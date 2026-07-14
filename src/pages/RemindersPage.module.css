@@ -1,0 +1,94 @@
+.summary {
+  display: grid;
+  grid-template-columns: 1.1fr repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.panelMetric {
+  display: grid;
+  gap: 15px;
+  min-height: 238px;
+  align-content: center;
+  padding: 28px;
+}
+
+.panelMetric svg {
+  color: var(--color-accent);
+}
+
+.panelMetric strong {
+  color: var(--color-text);
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 1;
+}
+
+.panelMetric span {
+  max-width: 260px;
+  color: var(--color-text-muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(360px, 0.8fr) minmax(0, 1.2fr);
+  gap: 20px;
+}
+
+.list {
+  min-width: 0;
+}
+
+.policy {
+  min-width: 0;
+}
+
+.rules {
+  display: grid;
+  gap: 12px;
+  padding: 22px;
+}
+
+.rules article {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  padding: 18px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.027);
+}
+
+.rules article > span {
+  color: var(--color-accent);
+  font-size: 0.76rem;
+  font-weight: 900;
+}
+
+.rules h3 {
+  margin: 0 0 7px;
+  color: var(--color-text);
+  font-size: 0.96rem;
+}
+
+.rules p {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 1180px) {
+  .summary,
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .rules article {
+    grid-template-columns: 1fr;
+  }
+}

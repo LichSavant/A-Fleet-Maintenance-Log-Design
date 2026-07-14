@@ -1,0 +1,29 @@
+.toast {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: min(420px, calc(100vw - 32px));
+  padding: 16px 18px;
+  color: var(--color-text);
+  border: 1px solid rgba(214, 168, 90, 0.25);
+  border-radius: var(--radius-md);
+  background: rgba(19, 23, 27, 0.94);
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(18px);
+}
+
+.toast svg {
+  flex: 0 0 auto;
+  color: var(--color-success);
+}
+
+@media (max-width: 640px) {
+  .toast {
+    right: 16px;
+    bottom: 16px;
+  }
+}

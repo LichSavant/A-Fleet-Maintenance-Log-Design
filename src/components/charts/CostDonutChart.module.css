@@ -1,0 +1,47 @@
+.wrap {
+  display: grid;
+  gap: 10px;
+  padding: 4px 18px 22px;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.legend i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.tone0 {
+  background: #d6a85a;
+}
+
+.tone1 {
+  background: #4ade80;
+}
+
+.tone2 {
+  background: #facc15;
+}
+
+.tone3 {
+  background: #93c5fd;
+}
+
+.tone4 {
+  background: rgba(255, 255, 255, 0.28);
+}

@@ -1,0 +1,111 @@
+.profile {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-height: 50px;
+  padding: 3px 10px 3px 3px;
+  color: var(--color-text);
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  transition:
+    border-color var(--transition-fast),
+    background var(--transition-fast);
+}
+
+.trigger:hover,
+.trigger[aria-expanded='true'] {
+  border-color: rgba(214, 168, 90, 0.18);
+  background: rgba(214, 168, 90, 0.055);
+}
+
+.trigger > span {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  text-align: left;
+}
+
+.trigger strong {
+  font-size: 0.82rem;
+  line-height: 1;
+}
+
+.trigger small {
+  color: var(--color-text-muted);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.trigger svg:last-child {
+  color: var(--color-text-muted);
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  z-index: 40;
+  display: grid;
+  width: 228px;
+  padding: 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: rgba(19, 23, 27, 0.96);
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(18px);
+}
+
+.menu button {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-height: 42px;
+  padding: 0 12px;
+  color: var(--color-text-muted);
+  border: 0;
+  border-radius: 13px;
+  background: transparent;
+  font-weight: 800;
+  text-align: left;
+  transition:
+    color var(--transition-fast),
+    background var(--transition-fast);
+}
+
+.menu button:hover {
+  color: var(--color-accent-hover);
+  background: rgba(214, 168, 90, 0.07);
+}
+
+@media (max-width: 1180px) {
+  .trigger > span,
+  .trigger svg:last-child {
+    display: none;
+  }
+
+  .trigger {
+    padding-right: 3px;
+  }
+}
+
+@media (max-width: 760px) {
+  .trigger {
+    width: 46px;
+    min-height: 46px;
+    padding: 1px;
+    overflow: hidden;
+  }
+
+  .menu {
+    right: 0;
+    width: 218px;
+  }
+}

@@ -1,0 +1,11 @@
+.loader {
+  display: grid;
+  min-height: 100vh;
+  color: var(--color-accent);
+  font-size: 0.84rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  place-items: center;
+  text-transform: uppercase;
+  background: var(--color-bg);
+}

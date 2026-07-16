@@ -1,0 +1,141 @@
+-- Login + profile info for mechanics (and other roles, but mechanic uses this)
+CREATE TABLE users (
+    user_id       INT AUTO_INCREMENT PRIMARY KEY,
+    full_name     VARCHAR(100) NOT NULL,
+    email         VARCHAR(150) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    role          ENUM('admin','driver','mechanic') NOT NULL,
+    phone         VARCHAR(20),
+    specialty     VARCHAR(100)
+);
+ 
+-- Basic vehicle info mechanic needs to see
+CREATE TABLE vehicles (
+    vehicle_id      INT AUTO_INCREMENT PRIMARY KEY,
+    plate_number    VARCHAR(20) NOT NULL,
+    make            VARCHAR(50),
+    model           VARCHAR(50),
+    status          ENUM('active','in_shop','retired') DEFAULT 'active',
+    current_mileage INT DEFAULT 0
+);
+ 
+-- Driver mileage entries (mechanic only views these)
+CREATE TABLE mileage_logs (
+    log_id     INT AUTO_INCREMENT PRIMARY KEY,
+    vehicle_id INT NOT NULL,
+    mileage    INT NOT NULL,
+    log_date   DATE NOT NULL,
+    FOREIGN KEY (vehicle_id) REFERENCES vehicles(vehicle_id)
+);
+ 
+-- List of service types (oil change, brake check, etc.)
+CREATE TABLE service_types (
+    service_type_id  INT AUTO_INCREMENT PRIMARY KEY,
+    name              VARCHAR(100) NOT NULL,
+    recommended_mileage_interval INT
+);
+ 
+-- The main table mechanics work with: logging completed maintenance
+CREATE TABLE maintenance_history (
+    maintenance_id     INT AUTO_INCREMENT PRIMARY KEY,
+    vehicle_id         INT NOT NULL,
+    service_type_id    INT NOT NULL,
+    mechanic_id         INT NOT NULL,
+    description          TEXT,
+    cost                 DECIMAL(10,2),
+    mileage_at_service   INT NOT NULL,
+    service_date         DATE NOT NULL,
+    next_due_mileage     INT,
+    status                ENUM('completed','in_progress','cancelled') DEFAULT 'completed',
+    FOREIGN KEY (vehicle_id)      REFERENCES vehicles(vehicle_id),
+    FOREIGN KEY (service_type_id) REFERENCES service_types(service_type_id),
+    FOREIGN KEY (mechanic_id)     REFERENCES users(user_id)
+);
+ 
+-- Alerts for upcoming/due/overdue services
+CREATE TABLE notifications (
+    notification_id  INT AUTO_INCREMENT PRIMARY KEY,
+    vehicle_id        INT NOT NULL,
+    message           VARCHAR(255) NOT NULL,
+    due_date          DATE,
+    status             ENUM('upcoming','due_soon','overdue','resolved') DEFAULT 'upcoming',
+    FOREIGN KEY (vehicle_id) REFERENCES vehicles(vehicle_id)
+);
+ 
+ 
+-- =====================================================================
+-- LOGIN
+-- =====================================================================
+ 
+-- Check email + role when mechanic logs in
+SELECT user_id, full_name, password_hash
+FROM users
+WHERE email = ? AND role = 'mechanic';
+ 
+ 
+-- =====================================================================
+-- DASHBOARD
+-- =====================================================================
+ 
+-- How many vehicles are active / in shop / retired
+SELECT status, COUNT(*) AS total
+FROM vehicles
+GROUP BY status;
+ 
+-- Services coming up soon
+SELECT v.plate_number, n.message, n.due_date
+FROM notifications n
+JOIN vehicles v ON v.vehicle_id = n.vehicle_id
+WHERE n.status = 'upcoming'
+ORDER BY n.due_date ASC;
+ 
+-- Jobs this mechanic recently completed
+SELECT v.plate_number, s.name, mh.service_date
+FROM maintenance_history mh
+JOIN vehicles v ON v.vehicle_id = mh.vehicle_id
+JOIN service_types s ON s.service_type_id = mh.service_type_id
+WHERE mh.mechanic_id = ?
+ORDER BY mh.service_date DESC
+LIMIT 10;
+ 
+ 
+-- =====================================================================
+-- VEHICLE DETAILS (view only)
+-- =====================================================================
+ 
+SELECT plate_number, make, model, status, current_mileage
+FROM vehicles
+WHERE vehicle_id = ?;
+ 
+ 
+-- =====================================================================
+-- MILEAGE LOGS (view only)
+-- =====================================================================
+ 
+SELECT mileage, log_date
+FROM mileage_logs
+WHERE vehicle_id = ?
+ORDER BY log_date DESC;
+ 
+ 
+-- =====================================================================
+-- MAINTENANCE HISTORY (main mechanic feature)
+-- =====================================================================
+ 
+-- Add a new maintenance record
+INSERT INTO maintenance_history
+    (vehicle_id, service_type_id, mechanic_id, description, cost, mileage_at_service, service_date, next_due_mileage, status)
+VALUES
+    (?, ?, ?, ?, ?, ?, ?, ?, ?);
+ 
+-- Edit a record (only if it belongs to this mechanic)
+UPDATE maintenance_history
+SET description = ?, cost = ?, mileage_at_service = ?, service_date = ?, status = ?
+WHERE maintenance_id = ? AND mechanic_id = ?;
+ 
+-- View all maintenance done on one vehicle
+SELECT s.name, mh.description, mh.cost, mh.service_date, mh.status
+FROM maintenance_history mh
+JOIN service_types s ON s.service_type_id = mh.service_type_id
+WHERE mh.vehicle_id = ?
+ORDER BY mh.service_date DESC;

@@ -1,0 +1,57 @@
+CREATE TABLE users (
+    user_id       INT PRIMARY KEY AUTO_INCREMENT,
+    full_name     VARCHAR(100) NOT NULL,
+    email         VARCHAR(150) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    role          VARCHAR(20) NOT NULL CHECK (role IN ('admin', 'driver', 'mechanic')),
+    phone         VARCHAR(20),
+    specialty     VARCHAR(100)
+);
+
+CREATE TABLE vehicles (
+    vehicle_id      INT PRIMARY KEY AUTO_INCREMENT,
+    plate_number    VARCHAR(20) NOT NULL UNIQUE,
+    make            VARCHAR(50) NOT NULL,
+    model           VARCHAR(50) NOT NULL,
+    status          VARCHAR(20) NOT NULL DEFAULT 'active' CHECK (status IN ('active', 'in_shop', 'retired')),
+    current_mileage INT NOT NULL DEFAULT 0
+);
+
+CREATE TABLE mileage_logs (
+    log_id     INT PRIMARY KEY AUTO_INCREMENT,
+    vehicle_id INT NOT NULL,
+    mileage    INT NOT NULL,
+    log_date   DATE NOT NULL,
+    FOREIGN KEY (vehicle_id) REFERENCES vehicles(vehicle_id)
+);
+
+CREATE TABLE service_types (
+    service_type_id             INT PRIMARY KEY AUTO_INCREMENT,
+    name                        VARCHAR(100) NOT NULL,
+    recommended_mileage_interval INT NOT NULL
+);
+
+CREATE TABLE maintenance_history (
+    maintenance_id     INT PRIMARY KEY AUTO_INCREMENT,
+    vehicle_id         INT NOT NULL,
+    service_type_id    INT NOT NULL,
+    mechanic_id        INT,
+    description        VARCHAR(255),
+    cost               DECIMAL(10,2) DEFAULT 0.00,
+    mileage_at_service INT NOT NULL,
+    service_date       DATE NOT NULL,
+    next_due_mileage   INT,
+    status              VARCHAR(20) NOT NULL DEFAULT 'in_progress' CHECK (status IN ('completed', 'in_progress', 'cancelled')),
+    FOREIGN KEY (vehicle_id) REFERENCES vehicles(vehicle_id),
+    FOREIGN KEY (service_type_id) REFERENCES service_types(service_type_id),
+    FOREIGN KEY (mechanic_id) REFERENCES users(user_id)
+);
+
+CREATE TABLE notifications (
+    notification_id INT PRIMARY KEY AUTO_INCREMENT,
+    vehicle_id       INT NOT NULL,
+    message          VARCHAR(255) NOT NULL,
+    due_date         DATE,
+    status           VARCHAR(20) NOT NULL DEFAULT 'upcoming' CHECK (status IN ('upcoming', 'due_soon', 'overdue', 'resolved')),
+    FOREIGN KEY (vehicle_id) REFERENCES vehicles(vehicle_id)
+);

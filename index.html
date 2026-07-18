@@ -1,17 +1,108 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#07090B" />
-    <meta
-      name="description"
-      content="ForgeFleet premium fleet maintenance management frontend"
-    />
-    <title>ForgeFleet</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<?php
+include "db.php";
+
+if(isset($_POST['continue'])){
+
+    $_SESSION['company']=$_POST['company'];
+
+    header("Location: login.php");
+
+    exit();
+
+}
+?>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>ForgeFleet</title>
+
+<link rel="stylesheet" href="assets/css/style.css">
+
+</head>
+
+<body>
+
+<div class="landing-container">
+
+<div class="company-card">
+
+<h1>FORGEFLEET</h1>
+
+<h3>Fleet Maintenance System</h3>
+
+<p>Select your company to continue.</p>
+
+<!-- YOUR FORM HERE -->
+
+<form method="POST">
+
+<input
+type="hidden"
+name="company"
+id="companyID">
+
+<div class="search-container">
+
+<input
+type="text"
+id="companySearch"
+placeholder="🔍 Search company..."
+autocomplete="off"
+onkeyup="searchCompany()">
+
+<div
+id="companyList"
+class="company-list">
+
+<?php
+
+$result=$conn->query("SELECT * FROM companies");
+
+while($row=$result->fetch_assoc()){
+
+?>
+
+<div
+class="company-item"
+onclick="selectCompany(
+<?php echo $row['id']; ?>,
+'<?php echo addslashes($row['company_name']); ?>'
+)">
+
+🏢 <?php echo $row['company_name']; ?>
+
+</div>
+
+<?php } ?>
+
+</div>
+
+</div>
+
+<br>
+
+<button
+type="submit"
+name="continue"
+id="continueBtn"
+disabled>
+
+Continue →
+
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+<!-- JavaScript -->
+<script src="assets/js/index.js"></script>
+
+</body>
 </html>
+

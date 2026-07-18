@@ -1,30 +1,25 @@
 <?php
-
 include "db.php";
 
 if(isset($_POST['continue'])){
 
-$_SESSION['company']=$_POST['company'];
+    $_SESSION['company']=$_POST['company'];
 
-header("Location:login.php");
+    header("Location: login.php");
 
-exit();
+    exit();
 
 }
-
 ?>
 
 <!DOCTYPE html>
-
 <html>
 
 <head>
 
 <title>ForgeFleet</title>
 
-<link
-rel="stylesheet"
-href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/style.css">
 
 </head>
 
@@ -38,31 +33,29 @@ href="assets/css/style.css">
 
 <h3>Fleet Maintenance System</h3>
 
-<p>
+<p>Select your company to continue.</p>
 
-Select your company.
-
-</p>
+<!-- YOUR FORM HERE -->
 
 <form method="POST">
 
 <input
-
-type="text"
-
-id="search"
-
-placeholder="Search Company..."
-
-onkeyup="filterCompany()">
-
-<select
-
+type="hidden"
 name="company"
+id="companyID">
 
-id="company"
+<div class="search-container">
 
-required>
+<input
+type="text"
+id="companySearch"
+placeholder="🔍 Search company..."
+autocomplete="off"
+onkeyup="searchCompany()">
+
+<div
+id="companyList"
+class="company-list">
 
 <?php
 
@@ -72,28 +65,32 @@ while($row=$result->fetch_assoc()){
 
 ?>
 
-<option
-value="<?php echo $row['id']; ?>">
+<div
+class="company-item"
+onclick="selectCompany(
+<?php echo $row['id']; ?>,
+'<?php echo addslashes($row['company_name']); ?>'
+)">
 
-<?php echo $row['company_name']; ?>
+🏢 <?php echo $row['company_name']; ?>
 
-</option>
+</div>
 
-<?php
+<?php } ?>
 
-}
+</div>
 
-?>
+</div>
 
-</select>
-
-<br><br>
+<br>
 
 <button
 type="submit"
-name="continue">
+name="continue"
+id="continueBtn"
+disabled>
 
-Continue
+Continue →
 
 </button>
 
@@ -103,38 +100,8 @@ Continue
 
 </div>
 
-<script>
-
-function filterCompany(){
-
-let input=document.getElementById("search");
-
-let filter=input.value.toUpperCase();
-
-let select=document.getElementById("company");
-
-let option=select.options;
-
-for(let i=0;i<option.length;i++){
-
-let txt=option[i].text;
-
-if(txt.toUpperCase().indexOf(filter)>-1){
-
-option[i].style.display="";
-
-}else{
-
-option[i].style.display="none";
-
-}
-
-}
-
-}
-
-</script>
+<!-- JavaScript -->
+<script src="assets/js/index.js"></script>
 
 </body>
-
 </html>
